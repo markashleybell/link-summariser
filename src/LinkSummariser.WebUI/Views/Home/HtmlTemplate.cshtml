@@ -1,0 +1,13 @@
+﻿<script id="html-template" type="text/template">
+<ul>
+    {{#summaries}}
+    <li>
+        <a href="{{{url}}}">{{{url}}}</a>
+        <br>
+        {{#summarySentences}}
+        <br>{{.}}
+        {{/summarySentences}}
+    </li>
+    {{/summaries}}
+</ul>
+</script>

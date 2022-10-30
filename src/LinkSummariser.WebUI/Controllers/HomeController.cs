@@ -7,9 +7,20 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
 
-    public HomeController(ILogger<HomeController> logger) =>
-        _logger = logger;
+    private readonly IConfiguration _cfg;
 
-    public IActionResult Index() =>
-        View(new IndexViewModel());
+    public HomeController(
+        ILogger<HomeController> logger,
+        IConfiguration cfg)
+    {
+        _logger = logger;
+        _cfg = cfg;
+    }
+
+    public IActionResult Index()
+    {
+        var viewModel = new IndexViewModel();
+
+        return View(viewModel);
+    }
 }

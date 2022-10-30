@@ -6,4 +6,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="AngleSharp" Version="0.17.1" />
+    <PackageReference Include="Azure.AI.TextAnalytics" Version="5.2.0-beta.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\LinkSummariser\LinkSummariser.csproj" />
+  </ItemGroup>
+
 </Project>

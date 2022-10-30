@@ -53,30 +53,29 @@
       ]
     },
     {
-      "library": "htmx.org@1.8.2",
-      "destination": "wwwroot/lib/htmx.org/",
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/lib/signalr/",
       "files": [
-        "dist/htmx.js",
-        "dist/htmx.min.js",
-        "dist/ext/ajax-header.js",
-        "dist/ext/alpine-morph.js",
-        "dist/ext/class-tools.js",
-        "dist/ext/client-side-templates.js",
-        "dist/ext/debug.js",
-        "dist/ext/disable-element.js",
-        "dist/ext/event-header.js",
-        "dist/ext/include-vals.js",
-        "dist/ext/json-enc.js",
-        "dist/ext/loading-states.js",
-        "dist/ext/method-override.js",
-        "dist/ext/morphdom-swap.js",
-        "dist/ext/path-deps.js",
-        "dist/ext/preload.js",
-        "dist/ext/rails-method.js",
-        "dist/ext/remove-me.js",
-        "dist/ext/restored.js",
-        "dist/ext/sse.js",
-        "dist/ext/ws.js"
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.js.map",
+        "dist/browser/signalr.min.js",
+        "dist/browser/signalr.min.js.map"
+      ]
+    },
+    {
+      "library": "mustache@4.2.0",
+      "destination": "wwwroot/lib/mustache/dist/",
+      "files": [
+        "mustache.min.js",
+        "mustache.js"
+      ]
+    },
+    {
+      "library": "clipboard@2.0.11",
+      "destination": "wwwroot/lib/clipboard",
+      "files": [
+        "dist/clipboard.js",
+        "dist/clipboard.min.js"
       ]
     }
   ]

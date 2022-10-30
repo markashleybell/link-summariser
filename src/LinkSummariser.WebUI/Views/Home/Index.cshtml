@@ -4,4 +4,32 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1>TODO</h1>
+<form asp-action="Process" asp-controller="Home" method="post" class="mt-4">
+    <div class="row">
+        <div class="col-sm-10">
+            <div class="mb-3">
+                <textarea asp-for="Links" class="form-control" rows="8" cols="80" placeholder="Paste a list of links here"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-2">
+            <button type="submit" id="submit-button" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>
+
+<div id="progress">Ready</div>
+
+<div class="row">
+    <div class="col-sm-6">
+        <pre class="results-display mt-4"><code id="markdown-results-display">Results will appear here</code></pre>
+        <button class="btn btn-primary btn-copy" data-clipboard-target="#markdown-results-display">Copy to clipboard</button>
+    </div>
+    <div class="col-sm-6">
+        <pre class="results-display mt-4"><code id="html-results-display">Results will appear here</code></pre>
+        <button class="btn btn-primary btn-copy" data-clipboard-target="#html-results-display">Copy to clipboard</button>
+    </div>
+</div>
+
+<partial name="MarkdownTemplate.cshtml" />
+
+<partial name="HtmlTemplate.cshtml" />
