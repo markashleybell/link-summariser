@@ -40,9 +40,16 @@ public static class Functions
         this TextAnalyticsClient client,
         IDictionary<string, string?> documents)
     {
+        var results = new Dictionary<string, (IEnumerable<string> SummarySentences, TextAnalyticsError? Error)>();
+
         var batchInput = documents
             .Where(d => !string.IsNullOrWhiteSpace(d.Value))
             .Select(d => new TextDocumentInput(d.Key, d.Value));
+
+        if (!batchInput.Any())
+        {
+            return results;
+        }
 
         var actions = new TextAnalyticsActions {
             ExtractSummaryActions = new List<ExtractSummaryAction>() {
@@ -53,8 +60,6 @@ public static class Functions
         var operation = await client.StartAnalyzeActionsAsync(batchInput, actions);
 
         await operation.WaitForCompletionAsync();
-
-        var results = new Dictionary<string, (IEnumerable<string> SummarySentences, TextAnalyticsError? Error)>();
 
         await foreach (var item in operation.Value)
         {

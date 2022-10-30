@@ -34,6 +34,13 @@ namespace LinkSummariser.WebUI.Models
 
                 var a = await url.GetContent();
 
+                if (string.IsNullOrWhiteSpace(a.Content))
+                {
+                    await Clients.All.SendAsync(Update, $"No content found at {url} (in paragraph tags)");
+
+                    continue;
+                }
+
                 articleData.TryAdd(url, a);
 
                 await Clients.All.SendAsync(Update, $"Retrieved {url}");
