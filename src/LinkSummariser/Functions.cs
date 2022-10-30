@@ -1,4 +1,5 @@
 using System.Net;
+using System.Text.RegularExpressions;
 using AngleSharp;
 using AngleSharp.Io;
 using Azure.AI.TextAnalytics;
@@ -112,6 +113,7 @@ public static class Functions
         */
         var text = doc.QuerySelectorAll("p")
             .Select(p => p.TextContent.Trim())
+            .Select(t => Regex.Replace(t, @"[\r\n]+", " "))
             .Where(t => t.Count(char.IsWhiteSpace) > 5);
 
         return new Article(uri, doc.Title, HttpStatusCode.OK, "OK")
