@@ -1,8 +1,8 @@
-using System.Text.RegularExpressions;
-using Azure.AI.TextAnalytics;
-using Azure;
-using Microsoft.AspNetCore.SignalR;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
+using Azure;
+using Azure.AI.TextAnalytics;
+using Microsoft.AspNetCore.SignalR;
 
 namespace LinkSummariser.WebUI.Models
 {
@@ -28,22 +28,26 @@ namespace LinkSummariser.WebUI.Models
 
             var articleData = new ConcurrentDictionary<string, Article>();
 
-            foreach(var url in urls)
+            foreach (var url in urls)
             {
                 await Clients.All.SendAsync(Update, $"Fetching {url}");
 
                 var a = await url.GetContent();
 
-                if (string.IsNullOrWhiteSpace(a.Content))
-                {
-                    await Clients.All.SendAsync(Update, $"No content found at {url} (in paragraph tags)");
-
-                    continue;
-                }
-
                 articleData.TryAdd(url, a);
 
                 await Clients.All.SendAsync(Update, $"Retrieved {url}");
+            }
+
+            var articlesWithNoContent = articleData
+                .Where(a => string.IsNullOrWhiteSpace(a.Value.Content));
+
+            if (articlesWithNoContent.Any())
+            {
+                var noContentErrors = articlesWithNoContent
+                    .Select(a => $"No content found at {a.Key} (in paragraph tags)");
+
+                await Clients.All.SendAsync(Errors, noContentErrors);
             }
 
             await Clients.All.SendAsync(Update, "All content retrieved, summarising...");
@@ -57,7 +61,9 @@ namespace LinkSummariser.WebUI.Models
 
             var summaryData = await client.TrySummarise(content);
 
-            var errors = summaryData.Where(s => s.Value.Error != null);
+            var errors = summaryData
+                .Where(s => s.Value.Error != null)
+                .Select(s => $"{s.Value.Error?.ErrorCode}: {s.Value.Error?.Message}");
 
             await Clients.All.SendAsync(Update, "Summarisation complete");
 
